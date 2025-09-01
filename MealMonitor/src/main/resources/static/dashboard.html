@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMonitor Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 4px 0;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .main-content {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        .table th {
+            border-top: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 px-0">
+                <div class="sidebar p-3">
+                    <div class="text-center mb-4">
+                        <h4><i class="fas fa-utensils me-2"></i>MealMonitor</h4>
+                        <small>Dashboard</small>
+                    </div>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#dashboard" onclick="showSection('dashboard')">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                        <a class="nav-link" href="#reviews" onclick="showSection('reviews')">
+                            <i class="fas fa-star me-2"></i>My Reviews
+                        </a>
+                        <a class="nav-link" href="#canteen" onclick="showSection('canteen')">
+                            <i class="fas fa-utensils me-2"></i>Canteen Items
+                        </a>
+                        <a class="nav-link" href="#notifications" onclick="showSection('notifications')">
+                            <i class="fas fa-bell me-2"></i>Notifications
+                        </a>
+                        <a class="nav-link" href="#profile" onclick="showSection('profile')">
+                            <i class="fas fa-user me-2"></i>Profile
+                        </a>
+                        <hr class="my-3">
+                        <a class="nav-link" href="#" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 px-0">
+                <div class="main-content p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 id="pageTitle">Dashboard</h2>
+                        <div class="d-flex align-items-center">
+                            <span class="me-3">Welcome, <span id="userName">User</span></span>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#profile" onclick="showSection('profile')">Profile Settings</a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+                                </ul>
+                            </div>
+                            <button id="loginBtn" class="btn btn-primary ms-2" onclick="goToLogin()" style="display: none;">
+                                <i class="fas fa-sign-in-alt me-1"></i>Login
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card stat-card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-users fa-2x mb-2"></i>
+                                        <h4 id="totalUsers">0</h4>
+                                        <p class="mb-0">Total Users</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stat-card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-star fa-2x mb-2"></i>
+                                        <h4 id="totalReviews">0</h4>
+                                        <p class="mb-0">Total Reviews</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stat-card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-utensils fa-2x mb-2"></i>
+                                        <h4 id="totalItems">0</h4>
+                                        <p class="mb-0">Menu Items</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stat-card">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-bell fa-2x mb-2"></i>
+                                        <h4 id="unreadNotifications">0</h4>
+                                        <p class="mb-0">Unread</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Recent Reviews</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="recentReviews">
+                                            <p class="text-muted">No recent reviews</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Quick Actions</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <button class="btn btn-primary me-2 mb-2" onclick="showSection('reviews')">
+                                            <i class="fas fa-plus me-1"></i>Add Review
+                                        </button>
+                                        <button class="btn btn-outline-primary me-2 mb-2" onclick="showSection('canteen')">
+                                            <i class="fas fa-search me-1"></i>Browse Menu
+                                        </button>
+                                        <button class="btn btn-outline-success me-2 mb-2" onclick="showSection('notifications')">
+                                            <i class="fas fa-bell me-1"></i>View Notifications
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Section -->
+                    <div id="reviews-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">My Reviews</h5>
+                                <button class="btn btn-primary" onclick="showAddReviewModal()">
+                                    <i class="fas fa-plus me-1"></i>Add Review
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div id="reviewsList">
+                                    <p class="text-muted">Loading reviews...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Canteen Section -->
+                    <div id="canteen-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Canteen Menu</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="searchItems" placeholder="Search menu items...">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="categoryFilter">
+                                            <option value="">All Categories</option>
+                                            <option value="BREAKFAST">Breakfast</option>
+                                            <option value="LUNCH">Lunch</option>
+                                            <option value="DINNER">Dinner</option>
+                                            <option value="SNACKS">Snacks</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="statusFilter">
+                                            <option value="">All Status</option>
+                                            <option value="AVAILABLE">Available</option>
+                                            <option value="UNAVAILABLE">Unavailable</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="canteenItemsList">
+                                    <p class="text-muted">Loading menu items...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div id="notifications-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Notifications</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="notificationsList">
+                                    <p class="text-muted">Loading notifications...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Section -->
+                    <div id="profile-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Profile Settings</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="profileForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="profileName" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="profileName" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="profileEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="profileEmail" required readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="profileRole" class="form-label">Role</label>
+                                            <input type="text" class="form-control" id="profileRole" readonly>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="profileStatus" class="form-label">Status</label>
+                                            <input type="text" class="form-control" id="profileStatus" readonly>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Review Modal -->
+    <div class="modal fade" id="addReviewModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Food Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addReviewForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewFoodItem" class="form-label">Food Item</label>
+                                <input type="text" class="form-control" id="reviewFoodItem" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewCategory" class="form-label">Category</label>
+                                <select class="form-select" id="reviewCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="BREAKFAST">Breakfast</option>
+                                    <option value="LUNCH">Lunch</option>
+                                    <option value="DINNER">Dinner</option>
+                                    <option value="SNACKS">Snacks</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reviewDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="reviewDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewRating" class="form-label">Rating</label>
+                                <select class="form-select" id="reviewRating" required>
+                                    <option value="">Select Rating</option>
+                                    <option value="1">1 - Poor</option>
+                                    <option value="2">2 - Fair</option>
+                                    <option value="3">3 - Good</option>
+                                    <option value="4">4 - Very Good</option>
+                                    <option value="5">5 - Excellent</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="reviewLocation" class="form-label">Canteen Location</label>
+                                <input type="text" class="form-control" id="reviewLocation" placeholder="e.g., Main Canteen">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="reviewAnonymous">
+                                <label class="form-check-label" for="reviewAnonymous">
+                                    Submit anonymously
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentUser = null;
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            
+            if (!token || !user) {
+                // Show login button for guest users
+                document.getElementById('userName').textContent = 'Guest User';
+                document.getElementById('loginBtn').style.display = 'inline-block';
+                // Load dashboard with mock data
+                loadDashboardData();
+                return;
+            }
+            
+            try {
+                currentUser = JSON.parse(user);
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('loginBtn').style.display = 'none';
+                loadDashboardData();
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                document.getElementById('userName').textContent = 'Guest User';
+                document.getElementById('loginBtn').style.display = 'inline-block';
+                loadDashboardData();
+            }
+        }
+
+        // Go to login page
+        function goToLogin() {
+            window.location.href = '/index.html';
+        }
+
+        // Show different sections
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('[id$="-section"]').forEach(el => el.style.display = 'none');
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update page title
+            const titles = {
+                'dashboard': 'Dashboard',
+                'reviews': 'My Reviews',
+                'canteen': 'Canteen Menu',
+                'notifications': 'Notifications',
+                'profile': 'Profile Settings'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionName];
+            
+            // Load section-specific data
+            switch(sectionName) {
+                case 'reviews':
+                    loadUserReviews();
+                    break;
+                case 'canteen':
+                    loadCanteenItems();
+                    break;
+                case 'notifications':
+                    loadNotifications();
+                    break;
+                case 'profile':
+                    loadUserProfile();
+                    break;
+            }
+        }
+
+        // Load dashboard data
+        async function loadDashboardData() {
+            try {
+                // Load stats from simple API
+                const statsResponse = await fetch('/api/simple-dashboard/stats');
+                
+                if (statsResponse.ok) {
+                    const stats = await statsResponse.json();
+                    document.getElementById('totalUsers').textContent = stats.totalUsers || 0;
+                    document.getElementById('totalReviews').textContent = stats.totalReviews || 0;
+                    document.getElementById('totalItems').textContent = stats.totalItems || 0;
+                    document.getElementById('unreadNotifications').textContent = stats.unreadNotifications || 0;
+                } else {
+                    // Fallback to mock data if API fails
+                    document.getElementById('totalUsers').textContent = '150';
+                    document.getElementById('totalReviews').textContent = '45';
+                    document.getElementById('totalItems').textContent = '25';
+                    document.getElementById('unreadNotifications').textContent = '3';
+                }
+                
+                // Load recent reviews
+                loadRecentReviews();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                // Fallback to mock data
+                document.getElementById('totalUsers').textContent = '150';
+                document.getElementById('totalReviews').textContent = '45';
+                document.getElementById('totalItems').textContent = '25';
+                document.getElementById('unreadNotifications').textContent = '3';
+            }
+        }
+
+        // Load recent reviews
+        async function loadRecentReviews() {
+            try {
+                const response = await fetch('/api/reviews/recent', {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                
+                if (response.ok) {
+                    const reviews = await response.json();
+                    displayRecentReviews(reviews);
+                } else {
+                    // Fallback to mock data
+                    displayRecentReviews([
+                        {
+                            foodItem: 'Chicken Biryani',
+                            description: 'Delicious and well-cooked biryani with tender chicken pieces.',
+                            rating: 4,
+                            createdAt: new Date().toISOString()
+                        },
+                        {
+                            foodItem: 'Veg Thali',
+                            description: 'Fresh vegetables with good variety and taste.',
+                            rating: 3,
+                            createdAt: new Date().toISOString()
+                        }
+                    ]);
+                }
+            } catch (error) {
+                console.error('Error loading recent reviews:', error);
+                // Fallback to mock data
+                displayRecentReviews([
+                    {
+                        foodItem: 'Chicken Biryani',
+                        description: 'Delicious and well-cooked biryani with tender chicken pieces.',
+                        rating: 4,
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        foodItem: 'Veg Thali',
+                        description: 'Fresh vegetables with good variety and taste.',
+                        rating: 3,
+                        createdAt: new Date().toISOString()
+                    }
+                ]);
+            }
+        }
+
+        // Display recent reviews
+        function displayRecentReviews(reviews) {
+            const container = document.getElementById('recentReviews');
+            
+            if (!reviews || reviews.length === 0) {
+                container.innerHTML = '<p class="text-muted">No recent reviews</p>';
+                return;
+            }
+            
+            const reviewsHtml = reviews.slice(0, 5).map(review => `
+                <div class="d-flex align-items-center mb-2">
+                    <div class="me-3">
+                        <span class="badge bg-warning">${review.rating}/5</span>
+                    </div>
+                    <div class="flex-grow-1">
+                        <strong>${review.foodItem}</strong>
+                        <br>
+                        <small class="text-muted">${review.description.substring(0, 50)}...</small>
+                    </div>
+                    <small class="text-muted">${new Date(review.createdAt).toLocaleDateString()}</small>
+                </div>
+            `).join('');
+            
+            container.innerHTML = reviewsHtml;
+        }
+
+        // Load user reviews
+        async function loadUserReviews() {
+            try {
+                const response = await fetch('/api/reviews/user', {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                
+                if (response.ok) {
+                    const reviews = await response.json();
+                    displayUserReviews(reviews);
+                } else {
+                    // Fallback to mock data
+                    displayUserReviews([
+                        {
+                            id: '1',
+                            foodItem: 'Chicken Biryani',
+                            description: 'Delicious and well-cooked biryani with tender chicken pieces.',
+                            rating: 4,
+                            category: 'LUNCH',
+                            canteenLocation: 'Main Canteen',
+                            createdAt: new Date().toISOString()
+                        }
+                    ]);
+                }
+            } catch (error) {
+                console.error('Error loading user reviews:', error);
+                // Fallback to mock data
+                displayUserReviews([
+                    {
+                        id: '1',
+                        foodItem: 'Chicken Biryani',
+                        description: 'Delicious and well-cooked biryani with tender chicken pieces.',
+                        rating: 4,
+                        category: 'LUNCH',
+                        canteenLocation: 'Main Canteen',
+                        createdAt: new Date().toISOString()
+                    }
+                ]);
+            }
+        }
+
+        // Display user reviews
+        function displayUserReviews(reviews) {
+            const container = document.getElementById('reviewsList');
+            
+            if (!reviews || reviews.length === 0) {
+                container.innerHTML = '<p class="text-muted">No reviews found</p>';
+                return;
+            }
+            
+            const reviewsHtml = reviews.map(review => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title">${review.foodItem}</h6>
+                                <p class="card-text">${review.description}</p>
+                                <div class="mb-2">
+                                    <span class="badge bg-warning me-2">${review.rating}/5</span>
+                                    <span class="badge bg-secondary me-2">${review.category}</span>
+                                    <span class="badge bg-info">${review.canteenLocation}</span>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <small class="text-muted">${new Date(review.createdAt).toLocaleDateString()}</small>
+                                <br>
+                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="editReview('${review.id}')" title="Edit Review">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger mt-1" onclick="deleteReview('${review.id}')" title="Delete Review">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = reviewsHtml;
+        }
+
+        // Load canteen items
+        async function loadCanteenItems() {
+            try {
+                const response = await fetch('/api/canteen/items', {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                
+                if (response.ok) {
+                    const items = await response.json();
+                    displayCanteenItems(items);
+                } else {
+                    // Fallback to mock data
+                    displayCanteenItems([
+                        {
+                            name: 'Chicken Biryani',
+                            description: 'Aromatic rice dish with tender chicken pieces',
+                            category: 'LUNCH',
+                            availabilityStatus: 'AVAILABLE',
+                            price: 120,
+                            isSpecial: false
+                        },
+                        {
+                            name: 'Veg Thali',
+                            description: 'Complete meal with rice, dal, vegetables and roti',
+                            category: 'LUNCH',
+                            availabilityStatus: 'AVAILABLE',
+                            price: 80,
+                            isSpecial: true
+                        }
+                    ]);
+                }
+            } catch (error) {
+                console.error('Error loading canteen items:', error);
+                // Fallback to mock data
+                displayCanteenItems([
+                    {
+                        name: 'Chicken Biryani',
+                        description: 'Aromatic rice dish with tender chicken pieces',
+                        category: 'LUNCH',
+                        availabilityStatus: 'AVAILABLE',
+                        price: 120,
+                        isSpecial: false
+                    },
+                    {
+                        name: 'Veg Thali',
+                        description: 'Complete meal with rice, dal, vegetables and roti',
+                        category: 'LUNCH',
+                        availabilityStatus: 'AVAILABLE',
+                        price: 80,
+                        isSpecial: true
+                    }
+                ]);
+            }
+        }
+
+        // Display canteen items
+        function displayCanteenItems(items) {
+            const container = document.getElementById('canteenItemsList');
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = '<p class="text-muted">No menu items found</p>';
+                return;
+            }
+            
+            const itemsHtml = items.map(item => `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title">${item.name}</h6>
+                                <p class="card-text">${item.description}</p>
+                                <div class="mb-2">
+                                    <span class="badge bg-primary me-2">${item.category}</span>
+                                    <span class="badge bg-${item.availabilityStatus === 'AVAILABLE' ? 'success' : 'danger'}">${item.availabilityStatus}</span>
+                                    ${item.isSpecial ? '<span class="badge bg-warning ms-2">Special</span>' : ''}
+                                </div>
+                                <strong class="text-primary">₹${item.price}</strong>
+                            </div>
+                            <div class="text-end">
+                                <button class="btn btn-sm btn-outline-primary" onclick="addReviewForItem('${item.name}')" title="Add Review for ${item.name}">
+                                    <i class="fas fa-star me-1"></i>Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = itemsHtml;
+        }
+
+        // Load notifications
+        async function loadNotifications() {
+            try {
+                const response = await fetch('/api/notifications/user', {
+                    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+                });
+                
+                if (response.ok) {
+                    const notifications = await response.json();
+                    displayNotifications(notifications);
+                } else {
+                    // Fallback to mock data
+                    displayNotifications([
+                        {
+                            type: 'NEW_REVIEW',
+                            message: 'A new review has been posted for Chicken Biryani',
+                            status: 'UNREAD',
+                            createdAt: new Date().toISOString()
+                        },
+                        {
+                            type: 'SPECIAL_OFFER',
+                            message: 'Special discount on Veg Thali today!',
+                            status: 'READ',
+                            createdAt: new Date().toISOString()
+                        }
+                    ]);
+                }
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                // Fallback to mock data
+                displayNotifications([
+                    {
+                        type: 'NEW_REVIEW',
+                        message: 'A new review has been posted for Chicken Biryani',
+                        status: 'UNREAD',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        type: 'SPECIAL_OFFER',
+                        message: 'Special discount on Veg Thali today!',
+                        status: 'READ',
+                        createdAt: new Date().toISOString()
+                    }
+                ]);
+            }
+        }
+
+        // Display notifications
+        function displayNotifications(notifications) {
+            const container = document.getElementById('notificationsList');
+            
+            if (!notifications || notifications.length === 0) {
+                container.innerHTML = '<p class="text-muted">No notifications found</p>';
+                return;
+            }
+            
+            const notificationsHtml = notifications.map(notification => `
+                <div class="card mb-3 ${notification.status === 'UNREAD' ? 'border-primary' : ''}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title">${notification.type.replace(/_/g, ' ')}</h6>
+                                <p class="card-text">${notification.message}</p>
+                                <small class="text-muted">${new Date(notification.createdAt).toLocaleDateString()}</small>
+                            </div>
+                            <div>
+                                ${notification.status === 'UNREAD' ? 
+                                    '<span class="badge bg-primary">New</span>' : 
+                                    '<span class="badge bg-secondary">Read</span>'
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = notificationsHtml;
+        }
+
+        // Load user profile
+        function loadUserProfile() {
+            if (currentUser) {
+                document.getElementById('profileName').value = currentUser.name;
+                document.getElementById('profileEmail').value = currentUser.email;
+                document.getElementById('profileRole').value = currentUser.role;
+                document.getElementById('profileStatus').value = currentUser.isActive ? 'Active' : 'Inactive';
+            }
+        }
+
+        // Show add review modal
+        function showAddReviewModal() {
+            new bootstrap.Modal(document.getElementById('addReviewModal')).show();
+        }
+
+        // Add review for specific item
+        function addReviewForItem(itemName) {
+            document.getElementById('reviewFoodItem').value = itemName;
+            showAddReviewModal();
+        }
+
+        // Handle add review form submission
+        document.getElementById('addReviewForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const reviewData = {
+                foodItem: document.getElementById('reviewFoodItem').value,
+                description: document.getElementById('reviewDescription').value,
+                category: document.getElementById('reviewCategory').value,
+                rating: parseInt(document.getElementById('reviewRating').value),
+                canteenLocation: document.getElementById('reviewLocation').value,
+                isAnonymous: document.getElementById('reviewAnonymous').checked
+            };
+            
+            try {
+                const response = await fetch('/api/reviews', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    body: JSON.stringify(reviewData)
+                });
+                
+                if (response.ok) {
+                    alert('Review submitted successfully!');
+                    bootstrap.Modal.getInstance(document.getElementById('addReviewModal')).hide();
+                    document.getElementById('addReviewForm').reset();
+                    loadUserReviews();
+                    loadDashboardData();
+                } else {
+                    const error = await response.json();
+                    alert('Error submitting review: ' + error.error);
+                }
+            } catch (error) {
+                alert('Error submitting review: ' + error.message);
+            }
+        });
+
+        // Handle profile form submission
+        document.getElementById('profileForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const profileData = {
+                name: document.getElementById('profileName').value
+            };
+            
+            try {
+                const response = await fetch('/api/users/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                if (response.ok) {
+                    alert('Profile updated successfully!');
+                    currentUser.name = profileData.name;
+                    document.getElementById('userName').textContent = currentUser.name;
+                    localStorage.setItem('user', JSON.stringify(currentUser));
+                } else {
+                    const error = await response.json();
+                    alert('Error updating profile: ' + error.error);
+                }
+            } catch (error) {
+                alert('Error updating profile: ' + error.message);
+            }
+        });
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/index.html';
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>
