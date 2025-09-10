@@ -1,0 +1,141 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: mealmontor-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mealmontor_main
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - mealmontor-network
+
+  # Eureka Server
+  eureka-server:
+    build: ./MealMonitor-EurekaServer
+    container_name: mealmontor-eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mysql
+    networks:
+      - mealmontor-network
+
+  # API Gateway
+  gateway:
+    build: ./MealMonitor-Gateway
+    container_name: mealmontor-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # User Service
+  user-service:
+    build: ./MealMonitor-UserService
+    container_name: mealmontor-user-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mealmontor_users
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # Canteen Service
+  canteen-service:
+    build: ./MealMonitor-CanteenService
+    container_name: mealmontor-canteen-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mealmontor_canteen
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # Review Service
+  review-service:
+    build: ./MealMonitor-ReviewService
+    container_name: mealmontor-review-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mealmontor_reviews
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # Notification Service
+  notification-service:
+    build: ./MealMonitor-NotificationService
+    container_name: mealmontor-notification-service
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mealmontor_notifications
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # Web App (Spring Boot)
+  web-app:
+    build: ./MealMonitor-WebApp
+    container_name: mealmontor-web-app
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # React Frontend
+  frontend:
+    build: ./mealmontor-frontend
+    container_name: mealmontor-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - gateway
+    networks:
+      - mealmontor-network
+
+
+volumes:
+  mysql_data:
+
+networks:
+  mealmontor-network:
+    driver: bridge

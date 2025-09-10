@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MealMonitor-UserService-0.0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/MealMonitor-UserService/target/MealMonitor-UserService-0.0.1-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
