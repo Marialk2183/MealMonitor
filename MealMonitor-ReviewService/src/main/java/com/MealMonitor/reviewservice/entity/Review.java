@@ -27,6 +27,9 @@ public class Review {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
     @NotBlank
     @Size(max = 50)
     @Column(name = "dish_id")
@@ -37,7 +40,6 @@ public class Review {
     @Column(name = "user_id")
     private String userId;
 
-    // Constructors
     public Review() {}
 
     public Review(String reviewId, Integer rating, String comment, String dishId, String userId) {
@@ -49,59 +51,27 @@ public class Review {
     }
 
     // Getters and Setters
-    public String getReviewId() {
-        return reviewId;
-    }
+    public String getReviewId() { return reviewId; }
+    public void setReviewId(String reviewId) { this.reviewId = reviewId; }
 
-    public void setReviewId(String reviewId) {
-        this.reviewId = reviewId;
-    }
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
 
-    public Integer getRating() {
-        return rating;
-    }
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
 
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
+    public Boolean getIsAnonymous() { return isAnonymous; }
+    public void setIsAnonymous(Boolean isAnonymous) { this.isAnonymous = isAnonymous; }
 
-    public String getComment() {
-        return comment;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public Boolean getIsAnonymous() {
-        return isAnonymous;
-    }
+    public String getDishId() { return dishId; }
+    public void setDishId(String dishId) { this.dishId = dishId; }
 
-    public void setIsAnonymous(Boolean isAnonymous) {
-        this.isAnonymous = isAnonymous;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getDishId() {
-        return dishId;
-    }
-
-    public void setDishId(String dishId) {
-        this.dishId = dishId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 }

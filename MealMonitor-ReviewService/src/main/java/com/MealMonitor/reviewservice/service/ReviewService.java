@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReviewService {
@@ -18,11 +17,11 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public List<Review> getReviewsByItemName(String itemName) {
-        return reviewRepository.findByItemName(itemName);
+    public List<Review> getReviewsByDishId(String dishId) {
+        return reviewRepository.findByDishId(dishId);
     }
 
-    public List<Review> getReviewsByUserId(Long userId) {
+    public List<Review> getReviewsByUserId(String userId) {
         return reviewRepository.findByUserId(userId);
     }
 
@@ -33,25 +32,25 @@ public class ReviewService {
                 .toList();
     }
 
-    public Review getReviewById(Long id) {
+    public Review getReviewById(String id) {
         return reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Review not found"));
+                .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
     }
 
     public Review createReview(Review review) {
         return reviewRepository.save(review);
     }
 
-    public Review updateReview(Long id, Review reviewDetails) {
+    public Review updateReview(String id, Review reviewDetails) {
         Review review = getReviewById(id);
-        review.setItemName(reviewDetails.getItemName());
         review.setRating(reviewDetails.getRating());
         review.setComment(reviewDetails.getComment());
+        review.setIsAnonymous(reviewDetails.getIsAnonymous());
         review.setUpdatedAt(java.time.LocalDateTime.now());
         return reviewRepository.save(review);
     }
 
-    public void deleteReview(Long id) {
+    public void deleteReview(String id) {
         Review review = getReviewById(id);
         reviewRepository.delete(review);
     }

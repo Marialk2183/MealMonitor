@@ -108,6 +108,23 @@ services:
     networks:
       - mealmontor-network
 
+  # Poll Service
+  poll-service:
+    build: ./MealMonitor-PollService
+    container_name: mealmontor-poll-service
+    ports:
+      - "8087:8087"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mealmontor_polls
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
+      - eureka-server
+    networks:
+      - mealmontor-network
+
   # Web App (Spring Boot)
   web-app:
     build: ./MealMonitor-WebApp
@@ -117,6 +134,23 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
+      - eureka-server
+    networks:
+      - mealmontor-network
+
+  # Moderation Service
+  moderation-service:
+    build: ./MealMonitor-ModerationService
+    container_name: mealmontor-moderation-service
+    ports:
+      - "8088:8088"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/mealmontor_moderation
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+    depends_on:
+      - mysql
       - eureka-server
     networks:
       - mealmontor-network

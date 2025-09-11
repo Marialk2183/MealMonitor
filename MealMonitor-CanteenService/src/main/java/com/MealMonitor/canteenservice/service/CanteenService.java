@@ -1,13 +1,12 @@
 package com.MealMonitor.canteenservice.service;
 
-import com.MealMonitor.canteenservice.entity.CanteenItem;
 import com.MealMonitor.canteenservice.entity.AvailabilityStatus;
+import com.MealMonitor.canteenservice.entity.CanteenItem;
 import com.MealMonitor.canteenservice.repository.CanteenItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CanteenService {
@@ -27,32 +26,32 @@ public class CanteenService {
         return canteenItemRepository.findByAvailabilityStatus(AvailabilityStatus.AVAILABLE);
     }
 
-    public List<CanteenItem> searchItems(String name) {
-        return canteenItemRepository.findByNameContainingIgnoreCase(name);
+    public List<CanteenItem> searchItems(String dishName) {
+        return canteenItemRepository.findByDishNameContainingIgnoreCase(dishName);
     }
 
-    public CanteenItem getItemById(Long id) {
+    public CanteenItem getItemById(String id) {
         return canteenItemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Canteen item not found"));
+                .orElseThrow(() -> new RuntimeException("Canteen item not found with id: " + id));
     }
 
     public CanteenItem createItem(CanteenItem item) {
         return canteenItemRepository.save(item);
     }
 
-    public CanteenItem updateItem(Long id, CanteenItem itemDetails) {
+    public CanteenItem updateItem(String id, CanteenItem itemDetails) {
         CanteenItem item = getItemById(id);
-        item.setName(itemDetails.getName());
+        item.setDishName(itemDetails.getDishName());
         item.setDescription(itemDetails.getDescription());
         item.setPrice(itemDetails.getPrice());
         item.setCategory(itemDetails.getCategory());
         item.setAvailabilityStatus(itemDetails.getAvailabilityStatus());
-        item.setImageUrl(itemDetails.getImageUrl());
+        item.setImageURL(itemDetails.getImageURL());
         item.setUpdatedAt(java.time.LocalDateTime.now());
         return canteenItemRepository.save(item);
     }
 
-    public void deleteItem(Long id) {
+    public void deleteItem(String id) {
         CanteenItem item = getItemById(id);
         canteenItemRepository.delete(item);
     }
