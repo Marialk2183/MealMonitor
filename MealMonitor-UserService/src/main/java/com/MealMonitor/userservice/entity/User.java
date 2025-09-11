@@ -1,6 +1,9 @@
 package com.MealMonitor.userservice.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,14 +13,20 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @Column(name = "user_id", length = 50)
     private String userId;
 
     @NotBlank
-    @Size(max = 100)
-    @Column(name = "name")
-    private String name;
+    @Size(max = 50)
+    @Column(name = "first_name")
+    private String firstName;
+
+    @NotBlank
+    @Size(max = 50)
+    @Column(name = "last_name")
+    private String lastName;
 
     @NotBlank
     @Email
@@ -33,6 +42,10 @@ public class User {
     @Size(max = 255)
     @Column(name = "password_hash")
     private String passwordHash;
+
+    @Size(max = 20)
+    @Column(name = "student_id", unique = true)
+    private String studentId;
 
     @Size(max = 500)
     @Column(name = "profile_image_url")
@@ -52,15 +65,18 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(String userId, String name, String email, String passwordHash, String roleId) {
+    public User(String userId, String firstName, String lastName, String email, String passwordHash, String studentId, String roleId) {
         this.userId = userId;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.passwordHash = passwordHash;
+        this.studentId = studentId;
         this.roleId = roleId;
     }
 
     // Getters and Setters
+
     public String getUserId() {
         return userId;
     }
@@ -69,12 +85,20 @@ public class User {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -99,6 +123,14 @@ public class User {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getProfileImageURL() {

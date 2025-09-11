@@ -34,7 +34,7 @@ public class UserService {
         user.setFirstName(registrationDto.getFirstName());
         user.setLastName(registrationDto.getLastName());
         user.setEmail(registrationDto.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
+        user.setPasswordHash(passwordEncoder.encode(registrationDto.getPassword()));
         user.setStudentId(registrationDto.getStudentId());
 
         return userRepository.save(user);
@@ -42,14 +42,14 @@ public class UserService {
 
     public User authenticateUser(UserLoginDto loginDto) {
         Optional<User> userOptional = userRepository.findByEmail(loginDto.getEmail());
-        
+
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+            if (passwordEncoder.matches(loginDto.getPassword(), user.getPasswordHash())) {
                 return user;
             }
         }
-        
+
         throw new RuntimeException("Invalid email or password");
     }
 

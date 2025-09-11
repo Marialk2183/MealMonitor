@@ -1,1 +1,11 @@
+com\MealMonitor\userservice\entity\Role.class
+com\MealMonitor\userservice\entity\LoginHistory.class
+com\MealMonitor\userservice\dto\UserRegistrationDto.class
+com\MealMonitor\userservice\config\SecurityConfig.class
+com\MealMonitor\userservice\entity\User.class
 com\MealMonitor\userservice\UserServiceApplication.class
+com\MealMonitor\userservice\controller\UserController.class
+com\MealMonitor\userservice\dto\UserLoginDto.class
+com\MealMonitor\userservice\entity\UserActivity.class
+com\MealMonitor\userservice\repository\UserRepository.class
+com\MealMonitor\userservice\service\UserService.class

@@ -5,8 +5,11 @@
       <list>
         <option value="$PROJECT_DIR$/MealMonitor/pom.xml" />
         <option value="$PROJECT_DIR$/MealMonitor-EurekaServer/pom.xml" />
+        <option value="$PROJECT_DIR$/MealMonitor-Gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/MealMonitor-WebApp/pom.xml" />
+        <option value="$PROJECT_DIR$/MealMonitor-UserService/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="corretto-17" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" project-jdk-name="23" project-jdk-type="JavaSDK" />
 </project>

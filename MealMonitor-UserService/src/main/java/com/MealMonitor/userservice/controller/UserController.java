@@ -4,12 +4,12 @@ import com.MealMonitor.userservice.dto.UserLoginDto;
 import com.MealMonitor.userservice.dto.UserRegistrationDto;
 import com.MealMonitor.userservice.entity.User;
 import com.MealMonitor.userservice.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class UserController {
             User user = userService.registerUser(registrationDto);
             
             // Remove password from response
-            user.setPassword(null);
+            user.setPasswordHash(null);
             
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
         } catch (RuntimeException e) {
@@ -59,7 +59,7 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
         try {
             User user = userService.getUserById(id);
-            user.setPassword(null); // Remove password from response
+            user.setPasswordHash(null); // Remove password from response
             return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             Map<String, String> error = new HashMap<>();

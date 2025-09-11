@@ -1,6 +1,8 @@
 package com.MealMonitor.userservice.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "roles")

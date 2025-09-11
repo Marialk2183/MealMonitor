@@ -1,1 +1,11 @@
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\config\SecurityConfig.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\controller\UserController.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\dto\UserLoginDto.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\dto\UserRegistrationDto.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\entity\LoginHistory.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\entity\Role.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\entity\User.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\entity\UserActivity.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\repository\UserRepository.java
+C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\service\UserService.java
 C:\Users\acer\OneDrive\Desktop\MSA\MealMonitor-UserService\src\main\java\com\MealMonitor\userservice\UserServiceApplication.java
