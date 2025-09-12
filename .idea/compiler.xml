@@ -6,29 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MealMonitor-WebApp" />
-        <module name="MealMonitor-NotificationService" />
-        <module name="MealMonitor-UserService" />
         <module name="MealMonitor-EurekaServer" />
-        <module name="MealMonitor-ReviewService" />
         <module name="MealMonitor-ModerationService" />
+        <module name="MealMonitor-WebApp" />
         <module name="MealMonitor" />
-        <module name="MealMonitor-PollService" />
+        <module name="MealMonitor-UserService" />
         <module name="MealMonitor-Gateway" />
-        <module name="MealMonitor-CanteenService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="MealMonitor" target="17" />
       <module name="MealMonitor-CanteenService" target="21" />
-      <module name="MealMonitor-EurekaServer" target="17" />
-      <module name="MealMonitor-Gateway" target="21" />
-      <module name="MealMonitor-ModerationService" target="21" />
       <module name="MealMonitor-NotificationService" target="21" />
       <module name="MealMonitor-PollService" target="21" />
       <module name="MealMonitor-ReviewService" target="21" />
-      <module name="MealMonitor-UserService" target="21" />
-      <module name="MealMonitor-WebApp" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
