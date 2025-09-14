@@ -3,17 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/MSA.iml" filepath="$PROJECT_DIR$/.idea/MSA.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor/MealMonitor.iml" filepath="$PROJECT_DIR$/MealMonitor/MealMonitor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-CanteenService/MealMonitor-CanteenService.iml" filepath="$PROJECT_DIR$/MealMonitor-CanteenService/MealMonitor-CanteenService.iml" />
       <module fileurl="file://$PROJECT_DIR$/MealMonitor-Complete/MealMonitor-Complete.iml" filepath="$PROJECT_DIR$/MealMonitor-Complete/MealMonitor-Complete.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-EurekaServer/MealMonitor-EurekaServer.iml" filepath="$PROJECT_DIR$/MealMonitor-EurekaServer/MealMonitor-EurekaServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-Gateway/MealMonitor-Gateway.iml" filepath="$PROJECT_DIR$/MealMonitor-Gateway/MealMonitor-Gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-ModerationService/MealMonitor-ModerationService.iml" filepath="$PROJECT_DIR$/MealMonitor-ModerationService/MealMonitor-ModerationService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-NotificationService/MealMonitor-NotificationService.iml" filepath="$PROJECT_DIR$/MealMonitor-NotificationService/MealMonitor-NotificationService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-PollService/MealMonitor-PollService.iml" filepath="$PROJECT_DIR$/MealMonitor-PollService/MealMonitor-PollService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-ReviewService/MealMonitor-ReviewService.iml" filepath="$PROJECT_DIR$/MealMonitor-ReviewService/MealMonitor-ReviewService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-UserService/MealMonitor-UserService.iml" filepath="$PROJECT_DIR$/MealMonitor-UserService/MealMonitor-UserService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MealMonitor-WebApp/MealMonitor-WebApp.iml" filepath="$PROJECT_DIR$/MealMonitor-WebApp/MealMonitor-WebApp.iml" />
     </modules>
   </component>
 </project>

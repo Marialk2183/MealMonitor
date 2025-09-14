@@ -5,9 +5,10 @@ spring:
   application:
     name: MealMonitor-PollService
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:polls}
-    username: ${SPRING_DATASOURCE_USERNAME:sa}
-    password: ${SPRING_DATASOURCE_PASSWORD:}
+    url: jdbc:mysql://localhost:3306/mealmontor_polls
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update

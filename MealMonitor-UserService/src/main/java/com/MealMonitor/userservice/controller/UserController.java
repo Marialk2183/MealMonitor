@@ -67,4 +67,9 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/")
+    public String hello(){
+        return "hello";
+    }
 }
