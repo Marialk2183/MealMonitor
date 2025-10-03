@@ -12,11 +12,11 @@ import {
   Alert,
   CircularProgress,
 } from '@mui/material';
-import { Send } from '@mui/icons-material';//shad scenen use it here
+import { Send } from '@mui/icons-material';
 import axios from 'axios';
-
+ 
 interface Review {
-  id: string;
+  reviewId: number;
   itemName: string;
   rating: number;
   comment: string;
@@ -26,7 +26,7 @@ interface Review {
     lastName: string;
   };
 }
-
+ 
 const Reviews: React.FC = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [newReview, setNewReview] = useState({
@@ -37,44 +37,68 @@ const Reviews: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
-
+ 
   useEffect(() => {
     fetchReviews();
   }, []);
-
+ 
   const fetchReviews = async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get('http://localhost:9090/api/reviews', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setReviews(response.data);
-    } catch (err: any) {
+ 
+      // Map backend response to frontend interface
+      const mappedReviews: Review[] = response.data.map((r: any) => ({
+        reviewId: r.reviewId,
+        itemName: r.dishId, // backend field mapped to frontend
+        rating: r.rating,
+        comment: r.comment,
+        createdAt: r.createdAt,
+        user: {
+          firstName: `User ${r.userId}`, // placeholder
+          lastName: '',
+        },
+      }));
+ 
+      setReviews(mappedReviews);
+    } catch (err) {
       setError('Failed to load reviews');
     } finally {
       setLoading(false);
     }
   };
-
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
     setError('');
-
+ 
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:9090/api/reviews', newReview, {
+ 
+      // Convert frontend review to backend expected shape
+      const payload = {
+        dishId: newReview.itemName,
+        rating: newReview.rating,
+        comment: newReview.comment,
+        userId: '10', // Replace with logged-in userId if available
+      };
+ 
+      await axios.post('http://localhost:9090/api/reviews', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
+ 
       setNewReview({ itemName: '', rating: 0, comment: '' });
       fetchReviews();
-    } catch (err: any) {
+    } catch (err) {
       setError('Failed to submit review');
     } finally {
       setSubmitting(false);
     }
   };
-
+ 
   if (loading) {
     return (
       <Container>
@@ -84,20 +108,20 @@ const Reviews: React.FC = () => {
       </Container>
     );
   }
-
+ 
   return (
     <Container maxWidth="lg">
       <Box sx={{ py: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Reviews
         </Typography>
-
+ 
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
           </Alert>
         )}
-
+ 
         {/* Add Review Form */}
         <Card sx={{ mb: 4 }}>
           <CardContent>
@@ -149,7 +173,7 @@ const Reviews: React.FC = () => {
             </Box>
           </CardContent>
         </Card>
-
+ 
         {/* Reviews List */}
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
           {reviews.length === 0 ? (
@@ -160,7 +184,7 @@ const Reviews: React.FC = () => {
             </Box>
           ) : (
             reviews.map((review) => (
-              <Card key={review.id}>
+              <Card key={review.reviewId}>
                 <CardContent>
                   <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
                     <Typography variant="h6" component="h3">
@@ -187,5 +211,7 @@ const Reviews: React.FC = () => {
     </Container>
   );
 };
-
+ 
 export default Reviews;
+ 
+ 

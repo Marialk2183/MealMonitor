@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/canteen")
-//@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class CanteenController {
 
     @Autowired
