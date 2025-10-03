@@ -31,11 +31,14 @@ public class UserService {
 
         // Create new user
         User user = new User();
+
         user.setFirstName(registrationDto.getFirstName());
         user.setLastName(registrationDto.getLastName());
         user.setEmail(registrationDto.getEmail());
         user.setPasswordHash(passwordEncoder.encode(registrationDto.getPassword()));
         user.setStudentId(registrationDto.getStudentId());
+
+        user.setRoleId("STUDENT");
 
         return userRepository.save(user);
     }

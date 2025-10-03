@@ -45,7 +45,7 @@ const Reviews: React.FC = () => {
   const fetchReviews = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/reviews', {
+      const response = await axios.get('http://localhost:9090/api/reviews', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setReviews(response.data);
@@ -63,7 +63,7 @@ const Reviews: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:8080/api/reviews', newReview, {
+      await axios.post('http://localhost:9090/api/reviews', newReview, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNewReview({ itemName: '', rating: 0, comment: '' });

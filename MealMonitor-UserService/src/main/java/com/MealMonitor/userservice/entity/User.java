@@ -1,9 +1,6 @@
 package com.MealMonitor.userservice.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -15,8 +12,10 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", length = 50)
-    private String userId;
+    private Long userId;
+
 
     @NotBlank
     @Size(max = 50)
@@ -65,7 +64,7 @@ public class User {
     // Constructors
     public User() {}
 
-    public User(String userId, String firstName, String lastName, String email, String passwordHash, String studentId, String roleId) {
+    public User(Long userId, String firstName, String lastName, String email, String passwordHash, String studentId, String roleId) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -77,11 +76,11 @@ public class User {
 
     // Getters and Setters
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

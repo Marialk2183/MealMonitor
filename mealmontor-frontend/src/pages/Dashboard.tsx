@@ -50,8 +50,8 @@ const Dashboard: React.FC = () => {
       const headers = { Authorization: `Bearer ${token}` };
 
       const [reviewsResponse, canteenResponse] = await Promise.all([
-        axios.get('http://localhost:8080/api/reviews/recent', { headers }),
-        axios.get('http://localhost:8080/api/canteen/items', { headers }),
+        axios.get('http://localhost:9090/api/reviews/recent', { headers }),
+        axios.get('http://localhost:9090/api/canteen/items', { headers }),
       ]);
 
       setRecentReviews(reviewsResponse.data);

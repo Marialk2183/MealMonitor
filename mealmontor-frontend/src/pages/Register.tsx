@@ -45,7 +45,7 @@ const Register: React.FC = () => {
 
     try {
       const { confirmPassword, ...userData } = formData;
-      await axios.post('http://localhost:8080/api/users/register', userData);
+      await axios.post('http://localhost:9090/api/users/register', userData);
       navigate('/login');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed');

@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 @Table(name = "reviews")
 public class Review {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", length = 50)
-    private String reviewId;
+    private Long reviewId;
 
     @NotNull
     @Column(name = "rating")
@@ -42,7 +43,7 @@ public class Review {
 
     public Review() {}
 
-    public Review(String reviewId, Integer rating, String comment, String dishId, String userId) {
+    public Review(Long reviewId, Integer rating, String comment, String dishId, String userId) {
         this.reviewId = reviewId;
         this.rating = rating;
         this.comment = comment;
@@ -51,8 +52,8 @@ public class Review {
     }
 
     // Getters and Setters
-    public String getReviewId() { return reviewId; }
-    public void setReviewId(String reviewId) { this.reviewId = reviewId; }
+    public Long getReviewId() { return reviewId; }
+    public void setReviewId(Long reviewId) { this.reviewId = reviewId; }
 
     public Integer getRating() { return rating; }
     public void setRating(Integer rating) { this.rating = rating; }

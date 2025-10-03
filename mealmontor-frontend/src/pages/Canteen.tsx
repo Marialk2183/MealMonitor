@@ -47,7 +47,7 @@ const Canteen: React.FC = () => {
   const fetchItems = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/canteen/items', {
+      const response = await axios.get('http://localhost:9090/api/canteen/items', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(response.data);
