@@ -1,1 +1,9 @@
+com\MealMonitor\notificationservice\repository\NotificationRepository.class
+com\MealMonitor\notificationservice\entity\Notification.class
+com\MealMonitor\notificationservice\entity\UserNotification.class
+com\MealMonitor\notificationservice\config\SecurityConfig.class
+com\MealMonitor\notificationservice\entity\NotificationType.class
 com\MealMonitor\notificationservice\NotificationServiceApplication.class
+com\MealMonitor\notificationservice\controller\NotificationController.class
+com\MealMonitor\notificationservice\entity\NotificationStatus.class
+com\MealMonitor\notificationservice\service\NotificationService.class

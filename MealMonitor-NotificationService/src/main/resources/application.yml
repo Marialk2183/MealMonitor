@@ -26,3 +26,16 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: purvakamerkarjj5499@gmail.com
+    password: suzlwuzcmvftktaw  # ✅ App Password (NO SPACES ideally, see below!)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+#  suzl wuzc mvft ktaw

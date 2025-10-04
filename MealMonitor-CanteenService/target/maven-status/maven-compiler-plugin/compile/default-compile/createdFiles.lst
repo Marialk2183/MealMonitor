@@ -1,0 +1,7 @@
+com\MealMonitor\canteenservice\entity\Menu.class
+com\MealMonitor\canteenservice\controller\CanteenController.class
+com\MealMonitor\canteenservice\entity\CanteenItem.class
+com\MealMonitor\canteenservice\service\CanteenService.class
+com\MealMonitor\canteenservice\entity\AvailabilityStatus.class
+com\MealMonitor\canteenservice\CanteenServiceApplication.class
+com\MealMonitor\canteenservice\repository\CanteenItemRepository.class

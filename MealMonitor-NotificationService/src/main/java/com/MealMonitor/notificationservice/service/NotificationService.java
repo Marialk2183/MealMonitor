@@ -4,6 +4,8 @@ import com.MealMonitor.notificationservice.entity.Notification;
 import com.MealMonitor.notificationservice.entity.NotificationStatus;
 import com.MealMonitor.notificationservice.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +16,10 @@ public class NotificationService {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
 
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
@@ -33,8 +39,24 @@ public class NotificationService {
     }
 
     public Notification createNotification(Notification notification) {
+        Notification saved = notificationRepository.save(notification);
+        sendEmailNotification(saved);
         // default status & timestamps already handled in the entity
-        return notificationRepository.save(notification);
+        return saved;
+    }
+
+    private void sendEmailNotification(Notification notification) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(notification.getE);  // ✅ Replace with user email or notification.getUserId() if email is stored
+            message.setSubject("New Notification: " + notification.getTitle());
+            message.setText(notification.getMessage());
+
+            mailSender.send(message);
+            System.out.println("✅ Email sent successfully!");
+        } catch (Exception e) {
+            System.out.println("❌ Failed to send email: " + e.getMessage());
+        }
     }
 
     public Notification markAsRead(String id) {
