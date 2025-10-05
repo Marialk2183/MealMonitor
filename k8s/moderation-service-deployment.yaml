@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moderation-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moderation-service
+  template:
+    metadata:
+      labels:
+        app: moderation-service
+    spec:
+      containers:
+      - name: moderation-service
+        image: mealmontor-moderation-service:latest
+        ports:
+        - containerPort: 8088
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: docker
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/mealmontor_moderation
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moderation-service
+spec:
+  selector:
+    app: moderation-service
+  ports:
+  - protocol: TCP
+    port: 8088
+    targetPort: 8088
+  type: ClusterIP

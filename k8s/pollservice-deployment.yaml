@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poll-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poll-service
+  template:
+    metadata:
+      labels:
+        app: poll-service
+    spec:
+      containers:
+      - name: poll-service
+        image: mealmontor-poll-service:latest
+        ports:
+        - containerPort: 8087
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: docker
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/mealmontor_polls
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poll-service
+spec:
+  selector:
+    app: poll-service
+  ports:
+  - protocol: TCP
+    port: 8087
+    targetPort: 8087
+  type: ClusterIP
