@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
  
 interface Review {
   reviewId: number;
@@ -45,10 +46,10 @@ const Reviews: React.FC = () => {
   const fetchReviews = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:9090/api/reviews', {
+      const response = await axios.get(API_ENDPOINTS.REVIEWS, {
         headers: { Authorization: `Bearer ${token}` },
       });
- 
+
       // Map backend response to frontend interface
       const mappedReviews: Review[] = response.data.map((r: any) => ({
         reviewId: r.reviewId,
@@ -61,7 +62,7 @@ const Reviews: React.FC = () => {
           lastName: '',
         },
       }));
- 
+
       setReviews(mappedReviews);
     } catch (err) {
       setError('Failed to load reviews');
@@ -85,8 +86,8 @@ const Reviews: React.FC = () => {
         comment: newReview.comment,
         userId: '10', // Replace with logged-in userId if available
       };
- 
-      await axios.post('http://localhost:9090/api/reviews', payload, {
+
+      await axios.post(API_ENDPOINTS.REVIEWS, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
  

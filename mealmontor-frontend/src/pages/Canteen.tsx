@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { Search, Add, Edit, Delete } from '@mui/icons-material';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 interface CanteenItem {
   id: string;
@@ -47,7 +48,7 @@ const Canteen: React.FC = () => {
   const fetchItems = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:9090/api/canteen/items', {
+      const response = await axios.get(API_ENDPOINTS.CANTEEN_ITEMS, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setItems(response.data);

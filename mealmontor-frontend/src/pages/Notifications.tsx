@@ -22,6 +22,7 @@ import {
   CheckCircle,
 } from '@mui/icons-material';
 import axios from 'axios';
+import { API_ENDPOINTS, getNotificationReadUrl } from '../config/api';
 
 interface Notification {
   id: string;
@@ -44,7 +45,7 @@ const Notifications: React.FC = () => {
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:9090/api/notifications', {
+      const response = await axios.get(API_ENDPOINTS.NOTIFICATIONS, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotifications(response.data);
@@ -58,7 +59,7 @@ const Notifications: React.FC = () => {
   const markAsRead = async (notificationId: string) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:9090/api/notifications/${notificationId}/read`, {}, {
+      await axios.put(getNotificationReadUrl(notificationId), {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotifications(notifications.map(notif => 
@@ -72,7 +73,7 @@ const Notifications: React.FC = () => {
   const markAllAsRead = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:9090/api/notifications/read-all', {}, {
+      await axios.put(API_ENDPOINTS.NOTIFICATIONS_READ_ALL, {}, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setNotifications(notifications.map(notif => ({ ...notif, read: true })));

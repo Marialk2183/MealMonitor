@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const Register: React.FC = () => {
 
     try {
       const { confirmPassword, ...userData } = formData;
-      await axios.post('http://localhost:9090/api/users/register', userData);
+      await axios.post(API_ENDPOINTS.USERS_REGISTER, userData);
       navigate('/login');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed');

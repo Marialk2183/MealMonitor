@@ -16,6 +16,7 @@ import {
   TrendingUp,
 } from '@mui/icons-material';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 interface Review {
   id: string;
@@ -50,8 +51,8 @@ const Dashboard: React.FC = () => {
       const headers = { Authorization: `Bearer ${token}` };
 
       const [reviewsResponse, canteenResponse] = await Promise.all([
-        axios.get('http://localhost:9090/api/reviews/recent', { headers }),
-        axios.get('http://localhost:9090/api/canteen/items', { headers }),
+        axios.get(API_ENDPOINTS.REVIEWS_RECENT, { headers }),
+        axios.get(API_ENDPOINTS.CANTEEN_ITEMS, { headers }),
       ]);
 
       setRecentReviews(reviewsResponse.data);

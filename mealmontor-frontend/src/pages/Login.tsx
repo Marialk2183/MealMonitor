@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ const Login: React.FC = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:9090/api/users/login', formData);
+      const response = await axios.post(API_ENDPOINTS.USERS_LOGIN, formData);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       navigate('/dashboard');
